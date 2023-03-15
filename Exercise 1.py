@@ -1,14 +1,11 @@
-def mi_funcion(n):
+def imprimir_numero(n):
     
     if n == 1:
-        return print(n)
+        print(1)
+    else:
+        print(n)
+        imprimir_numero(n-1)
     
-    print(n)
-    n = n - 1
-       
-    mi_funcion(n)
-    return n
-
 n = input("Ingrese un numero entero: ")
 
-mi_funcion(int(n))
+imprimir_numero(int(n))
