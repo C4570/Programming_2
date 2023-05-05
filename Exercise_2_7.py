@@ -1,22 +1,39 @@
+'''
+TAD - Lista con nodos enlazados
 
+__init__ : inicia una lista vacia
+insert   : agrega un elemento a la lista en la posicion dada 
+index    : encuentra la posicion donde se encuentra un valro dado en una lista o si no se encuentra da error 
+[]       : muestra si la lista esta vacia
+remuve   : elimina un valor dado de la lista
+
+'''
 class Nodo:
     def __init__(self, cargo=None, next=None):
         self.cargo = cargo
         self.next = next 
     
+    def __str__(self):
+        return f'Cargo: {self.cargo} next: {self.next}'
+    
+class ListaE:
+    def __init__(self):
+        self.head = None
+    
     def insert(self, value, pos):
-        if pos == 0:
-            nodo = Nodo(value)
-            nodo.next = self
-            return nodo
+        if self.head == None:
+            self.head = Nodo(value)
         else:
-            if self.next == None:
-                self.next = Nodo(value)
-            else:
-                self.next = self.next.insert(value,pos-1)
-                return self
-                
-    def index(self, valor):
+            i = self.head
+            c = 0
+            while c != pos-1:
+                i = i.next
+                c+=1
+            nodo = Nodo(value)
+            nodo.next = i.next
+            i.next = nodo
+            
+    def index(self,valor):
         if (self.head == None):
             return -1
         else:
@@ -29,22 +46,6 @@ class Nodo:
                     c+=1
                     i = i.next
             return -1
-    
-    def __str__(self):
-        return f'Cargo: {self.cargo} next: {self.next}'
-    
-class ListaE:
-    def __init__(self):
-        self.head = None
-    
-    def insert(self, value, pos):
-        if self.head is None:
-            self.head = Nodo(value)
-        else:
-            self.head.insert(value, pos)
-            
-    def index(self,valor):
-        pass
 
     def remove(self,valor):
         if (self.head == None):
