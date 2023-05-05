@@ -1,5 +1,5 @@
 '''
-TAD - MAtriz
+TAD - Matriz
 
 __init__: Recibe dos dimensiones y crea una matriz de elementos nulos de dichas 
 dimensiones (filas x columnas).
