@@ -20,6 +20,18 @@ import os
 import time
 import sys
 
+#----------Animation---------- 
+def load_animation():
+    print("Loading:")
+    animation = ["[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
+
+    for i in range(len(animation)):
+        time.sleep(0.1)
+        sys.stdout.write("\r" + animation[i % len(animation)])
+        sys.stdout.flush()
+
+    print("\n")
+
 #------------Product------------
 class Product:
     def __init__(self, code, name, quantity):
@@ -58,28 +70,51 @@ class HashTable:
         # If the element is not found, return None
         return False, None, None           
                 
-    def delete (self, key):
-        pass
+    def delete (self, code):
+        found, index, product = self.search(code)
+        if found:
+            self.T[index].remove(product)
+            return True
+        else:
+            return False
     
     def __str__(self) -> str:
-        # Start with the string representation of the entire table
-        result = f'{self.T}\n' 
-        # Iterate over all indices in the table
-        for i in range(self.c): 
-            # If there are elements at this index
-            if len(self.T[i]) > 0: 
-                # Add a header for this index
-                result += f'In index {i}:\n' 
-                # Iterate over all products at this index
-                for j, product in enumerate(self.T[i]): 
-                    # Add the string representation of the product
-                    result += f'{str(product)}\n' 
-                    # If this is not the last product at this index
-                    if j < len(self.T[i]) - 1: 
-                        # Add a blank line between products
-                        result += '\n' 
-        return result
-    
+        # Calculate load factor and length of longest list
+        n = sum(len(lst) for lst in self.T)
+        m = self.c
+        load_factor = n / m
+        max_list_length = max(len(lst) for lst in self.T)
+        max_list_index = max(range(len(self.T)), key=lambda i: len(self.T[i]))
+
+        result = f'Load factor: {load_factor}\n'
+        result += f'Length of longest list: {max_list_length}\n'
+        result += f'Index of longest list: {max_list_index}\n'
+
+        print(result)
+        print("Do you want to see the loaded items?\n")
+        if choices() != False:
+            # Iterate over all indices in the table
+            for i in range(self.c):
+                # If there are elements at this index
+                if len(self.T[i]) > 0:
+                    # Add a header for this index
+                    result += f'\nIn index {i}:\n'
+                    # Iterate over all products at this index
+                    for j, product in enumerate(self.T[i]):
+                        # Add the string representation of the product
+                        result += f'{str(product)}\n'
+                        # If this is not the last product at this index
+                        if j < len(self.T[i]) - 1:
+                            # Add a blank line between products
+                            result += '\n'
+            print(result)
+        
+        print("Do you want to see the hash table?\n")
+        if choices() != False:
+            print(self.T)
+        
+        return ''
+
 #---------Clear-Screen---------
 def clear_screen():
     # for windows
@@ -88,18 +123,6 @@ def clear_screen():
     # for mac and linux (os.name is 'posix')
     else:
         os.system('clear')
-
-#----------Animation---------- 
-def load_animation():
-    print("Loading:")
-    animation = ["[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
-
-    for i in range(len(animation)):
-        time.sleep(0.2)
-        sys.stdout.write("\r" + animation[i % len(animation)])
-        sys.stdout.flush()
-
-    print("\n")
 
 #------------Secret------------
 def secret():
@@ -115,3 +138,26 @@ def secret():
     """)
     input()
     clear_screen()
+    
+#------------Text-Choice------------
+def text(var):
+    print()
+    print(f'Do you wish to {var} another product?')
+    
+def choices():
+    while True:
+        print("1. Yes")
+        print("2. No")
+        print()
+        choice = int(input("Enter choice: "))
+        
+        if choice == 1:
+            clear_screen()
+            break
+        elif choice == 2:
+            clear_screen()
+            return False
+        else:
+            print("Invalid choice (* ￣︿￣)")
+            input()
+            clear_screen()

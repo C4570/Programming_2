@@ -11,7 +11,7 @@ def generator():
 
     # Generate 10,000 unique product codes
     product_codes = set()
-    while len(product_codes) < 10000:
+    while len(product_codes) < 10:
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         product_codes.add(code)
 
