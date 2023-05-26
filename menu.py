@@ -1,4 +1,4 @@
-from main import Product, clear_screen, load_animation, secret
+from main import Product, clear_screen, load_animation, secret, text, choices
 from rand_gen import generator
 
 def menu() -> None:
@@ -7,7 +7,7 @@ def menu() -> None:
     print("+------------------+")
     print("| 1. Add new item  |")
     print("| 2. Item search   |")
-    print("| 3. Delete item   |")
+    print("| 3. Item delete   |")
     print("| 4. Stats         |")
     print("| 0. Exit          |")
     print("+------------------+")
@@ -16,9 +16,9 @@ if __name__ == "__main__":
     ht = generator()
     while True:
         menu()
-        choice_0 = int(input("Enter choice: "))
+        choice = int(input("Enter choice: "))
         # Add new item
-        if choice_0 == 1:
+        if choice == 1:
             clear_screen()
             while True:
                 code = str(input("Enter product code: "))
@@ -33,24 +33,14 @@ if __name__ == "__main__":
                 load_animation()
                 clear_screen()
                 
-                print('Do you wish to enter another product?')
-                print("1. Yes")
-                print("2. No")
-                print()
-                choice_1 = int(input("Enter choice: "))
+                print('The item was added without countermeasure')
                 
-                if choice_1 == 1:
-                    clear_screen()
-                elif choice_1 == 2:
-                    clear_screen()
+                text('add')
+                if choices() == False:
                     break
-                else:
-                    print("Invalid choice (* ￣︿￣)")
-                    input()
-                    clear_screen()
         
         # Item search        
-        elif choice_0 == 2:
+        elif choice == 2:
             clear_screen()
             while True:
                 code = str(input('Enter the code: '))
@@ -64,34 +54,47 @@ if __name__ == "__main__":
                 if found:
                     print(f'Item found \n\t-Index: {index}\n{str(product)}')
                 else:
-                    print('Item not found')
+                    print('Item not found in:')
                     print()
-                print('Do you wish to search another product?')
-                print("1. Yes")
-                print("2. No")
-                print()
-                choice_1 = int(input("Enter choice: "))
                 
-                if choice_1 == 1:
-                    clear_screen()
-                elif choice_1 == 2:
-                    clear_screen()
+                text('search')
+                if choices() == False:
                     break
-                else:
-                    print("Invalid choice (* ￣︿￣)")
-                    input()
-                    clear_screen()
 
-        elif choice_0 == 3:
+        # Delete Item
+        elif choice == 3:
             clear_screen()
-            pass
-        elif choice_0 == 4:
+            while True:
+                code = str(input('Enter the code: '))
+
+                # Load
+                clear_screen()
+                load_animation()
+                clear_screen()
+
+                deleted = ht.delete(code)
+                if deleted:
+                    print(f'Item deleted')
+                else:
+                    print('Item not found')
+
+                text('delete')
+                if choices() == False:
+                    break
+        
+        # Stat      
+        elif choice == 4:
             clear_screen()
-            pass
-        elif choice_0 == 5:
+            print(ht)
+            input()
+            clear_screen()
+            
+        elif choice == 5:
             clear_screen()
             secret()
-        elif choice_0 == 0:
+        
+        # Exit
+        elif choice == 0:
             clear_screen()
             break
         else:
