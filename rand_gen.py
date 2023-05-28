@@ -9,9 +9,10 @@ def generator():
     # Create a HashTable object
     ht = HashTable()
 
-    # Generate 10,000 unique product codes
+    x = 1000
+    # Generate x unique product codes
     product_codes = set()
-    while len(product_codes) < 10:
+    while len(product_codes) < x:
         code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         product_codes.add(code)
 
