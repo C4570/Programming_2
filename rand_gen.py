@@ -7,9 +7,9 @@ def generator():
     food_names = ['Fideos', 'Arroz', 'Pez', 'Pan', 'Leche', 'Huevos', 'Queso', 'Pollo', 'Carne', 'Verduras']
 
     # Create a HashTable object
-    ht = HashTable()
+    ht = HashTable(60000)
 
-    x = 1000
+    x = 40000
     # Generate x unique product codes
     product_codes = set()
     while len(product_codes) < x:
