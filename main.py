@@ -1,10 +1,10 @@
 '''
-class Product
+TAD Product
 
 __init__: Initializes a Product object with a code, name and quantity.
 
 
-class HashTable
+TAD HashTable
 
 __init__: Initializes the hash table without an optional hash function and capacity.
     -In case capacity is not passed a value the function will assign a default value to self.c. In case capacity will be assigned 40.000 
