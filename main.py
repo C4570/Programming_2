@@ -1,18 +1,19 @@
 '''
 TAD Product
 
-__init__: Initializes a Product object with a code, name and quantity.
+__init__    : Initializes a Product object with a code, name and quantity.
+__str__     : Returns the product attributes on the screen
 
 
 TAD HashTable
 
-__init__: Initializes the hash table without an optional hash function and capacity.
-    -In case capacity is not passed a value the function will assign a default value to self.c. In case capacity will be assigned 40.000 
-     since the supermarket normally sells this amount of products.
-insert  : Inserts an element in the hash table using a key.
-delete  : Deletes an element from the hash table using a key.
-search  : Searches for an element in the hash table using a key and returns the element if found.
-__str__ : Returns key statistics to study performance such as the hash table load factor, the length of the longest list and the number of elements present in the table.
+__init__    : Initializes the hash table without an optional hash function and capacity.
+hashfuntion : Calculate with the hash function the index where the product will be stored.
+calculate_lf: Calculate the load factor of the hash function
+insert      : Inserts an element in the hash table using a key.
+search      : Searches for an element in the hash table using a key and returns the element if found.
+delete      : Deletes an element from the hash table using a key.
+__str__     : Returns key statistics to study performance such as the hash table load factor, the length of the longest list and the number of elements present in the table.
 
 '''
 
@@ -44,11 +45,8 @@ class Product:
 
 #------------HashTable------------
 class HashTable:
-    def __init__(self, capacity=None):
-        if capacity is None:
-            self.c = 40000
-        else: 
-            self.c = capacity
+    def __init__(self, capacity):
+        self.c = capacity
         self.T = [[] for x in range(self.c)]    # For each element in the range, a list is accumulated in the list.
         
     def hashfuntion(self, code):
@@ -56,9 +54,41 @@ class HashTable:
         #                       h(k) = [c · (k · A − [k · A])]
         self.index = int((self.c *(key * 0.4570 - int((key * 0.4570)))))    
         
+    
+    def calculate_lf(self):
+        n = sum(len(lst) for lst in self.T)
+        m = self.c
+        load_factor = n / m
+        
+        return load_factor
+        
+    '''def rehash(self):
+        load_factor = self.calculate_lf()
+
+        if load_factor > 0.75:
+            new_c = int(self.c * 1.5)
+            
+        else:
+            new_c = int(self.c / 1.5)
+            
+        new_T = [[] for x in range(new_c)]
+        for lst in self.T:
+            for product in lst:
+                key = int(''.join([str(ord(c) - ord('A') + 1) if c.isalpha() else c for c in product.code]))
+                index = int((new_c *(key * 0.4570 - int((key * 0.4570)))))
+                new_T[index].append(product)
+                    
+            self.c = new_c
+            self.T = new_T'''
+            
     def insert (self, product):
         self.hashfuntion(product.code)
         self.T[self.index].append(product)
+        
+        '''load_factor = self.calculate_lf()
+        
+        if load_factor > 0.75 or load_factor < 0.6:
+            self.rehash()'''
         
     def search (self, code):
         self.hashfuntion(code)
@@ -80,9 +110,7 @@ class HashTable:
     
     def __str__(self) -> str:
         # Calculate load factor and length of longest list
-        n = sum(len(lst) for lst in self.T)
-        m = self.c
-        load_factor = n / m
+        load_factor = self.calculate_lf()
         max_list_length = max(len(lst) for lst in self.T)
         max_list_index = max(range(len(self.T)), key=lambda i: len(self.T[i]))
 
